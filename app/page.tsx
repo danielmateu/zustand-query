@@ -1,14 +1,11 @@
 'use client'
 
-import { QueryClientProvider } from "@tanstack/react-query";
-
 import { useFetchRepositories } from "@/app/hooks/useRepos";
-import { queryClient } from "./queryClient";
 import { Repository } from '../util/types';
+import Image from "next/image";
+import Cards from "@/components/cards/cards";
+// import { useEffect, useState } from "react";
 
-interface HomeProps {
-  repositories: Repository[];
-}
 
 
 export default function Home() {
@@ -19,20 +16,23 @@ export default function Home() {
   }
 
   return (
-    <>
+    <div className="flex flex-col gap-4 p-8">
       {
-        data?.map((repo: any) => {
-          return (
-            <div key={repo.name}>
-              <h1>{repo.name}</h1>
-              <p>{repo.description}</p>
-              <a href={repo.html_url} target="_blank" rel="noreferrer">
-                {repo.html_url}
-              </a>
-            </div>
-          );
-        })
+        data && (
+          // <div className="flex items-center gap-4">
+          <Image
+            src={data[0]?.owner?.avatar_url}
+            alt="Owner Avatar"
+            width={50}
+            height={50}
+            className="rounded-full"
+          />
+        )
       }
-    </>
+
+      <Cards
+        data={data as Repository[]}
+      />
+    </div>
   );
 }
